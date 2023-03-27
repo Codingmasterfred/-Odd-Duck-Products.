@@ -44,15 +44,15 @@ function handleSubmit(event) {
 function addSelectedItemToCart() {
   //TODO: suss out the item picked from the select list
   let product = document.querySelector("select").value
+  console.log("product", product)
   for (let i = 0; i < state.allProducts.length; i++) {
     if (state.allProducts[i].name === product) {
       let quantity = document.getElementById("quantity").value
+      //console.log(quantity)
       // TODO: get the quantity
       // TODO: using those, add one item to the Cart
-      let UserAddedProduct = new CartItem(product, quantity)
-      console.log(UserAddedProduct)
-      state.cart.items.push(UserAddedProduct)
-      console.log(state.cart.items)
+      
+      state.cart.addItem(product, quantity);
     }
   }
 }

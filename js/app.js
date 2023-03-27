@@ -9,43 +9,57 @@ const state = {
 };
 
 // Cart constructor.
-const Cart = function(items) {
+const Cart = function (items) {
   // this.items is an array of CartItem instances.
   this.items = items;
 };
 
-Cart.prototype.addItem = function(product, quantity) {
+Cart.prototype.addItem = function (product, quantity) {
   // TODO: Fill in this instance method to create a new CartItem and add it to this.items
-  let newItem = new CartItem(product, quantity);
-  this.items.push(newItem);
+  let updated = false
+  for (let i = 0; i < this.items.length; i++) {
+    console.log("Here", this.items[i].product)
+    if (product === this.items[i].product) {
+      console.log(product, this.items[i].product)
+      this.items[i].quantity = parseInt(quantity) + parseInt(this.items[i].quantity)
+      console.log("If statement Here", this.items[i].product)
+      updated = true
+      break;
+    }
+
+  }
+  if (!updated) {
+    let newItem = new CartItem(product, quantity);
+    this.items.push(newItem);
+  }
 };
 
-Cart.prototype.saveToLocalStorage = function() {
+Cart.prototype.saveToLocalStorage = function () {
   // TODO: Fill in this instance method to save the contents of the cart to localStorage
   let cartString = JSON.stringify(this.items);
   localStorage.setItem('cart', cartString);
 };
 
-Cart.prototype.removeItem = function(item) {
+Cart.prototype.removeItem = function (item) {
   // TODO: Fill in this instance method to remove one item from the cart.
-  this.items = this.items.filter(function(currentItem) {
+  this.items = this.items.filter(function (currentItem) {
     return currentItem.product !== item.product;
   });
 }
 
-Cart.prototype.updateCounter = function() {
+Cart.prototype.updateCounter = function () {
   // TODO: Update the cart count in the header nav with the number of items in the Cart
   let cartCount = document.getElementById("itemCount");
   cartCount.innerHTML = this.items.length;
 }
 
-const CartItem = function(product, quantity) {
+const CartItem = function (product, quantity) {
   this.product = product;
   this.quantity = quantity;
 };
 
 // Product contructor.
-const Product = function(filePath, name) {
+const Product = function (filePath, name) {
   this.filePath = filePath;
   this.name = name;
 };
@@ -75,3 +89,5 @@ function generateCatalog() {
 
 // Initialize the app by creating the big list of products with images and names
 generateCatalog();
+let inputQuantity = document.getElementById("quantity");
+inputQuantity.setAttribute("min", "0");
